@@ -1,144 +1,151 @@
 from __future__ import annotations
 
-from typing import Any, Dict
-
+from typing import Dict, Any
 import numpy as np
-import pandas as pd
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 
-def _to_1d_array(x) -> np.ndarray:
-    if isinstance(x, (pd.Series, pd.DataFrame)):
-        arr = x.values
-    else:
-        arr = np.asarray(x)
-    return arr.reshape(-1)
+def _to_numpy(x):
+    if hasattr(x, "to_numpy"):
+        x = x.to_numpy()
+    return np.asarray(x).ravel()
 
 
-def demographic_parity_difference(y_pred, sensitive_features) -> float:
-    """
-    Demographic parity difference = max_group_positive_rate - min_group_positive_rate
-    """
-    y_pred = _to_1d_array(y_pred)
-    s = _to_1d_array(sensitive_features)
+def demographic_parity_difference(y_pred, sensitive) -> float:
+    y_pred = _to_numpy(y_pred)
+    sensitive = _to_numpy(sensitive)
 
-    groups = pd.Series(s).astype(str)
-    pred = pd.Series(y_pred)
-
-    rates = pred.groupby(groups).mean()
-    if len(rates) <= 1:
+    groups = np.unique(sensitive)
+    if len(groups) < 2:
         return 0.0
-    return float(rates.max() - rates.min())
+
+    rates = []
+    for g in groups:
+        mask = sensitive == g
+        if mask.sum() == 0:
+            continue
+        rates.append(float(np.mean(y_pred[mask] == 1)))
+
+    if len(rates) < 2:
+        return 0.0
+    return float(max(rates) - min(rates))
 
 
-def equalized_odds_difference(y_true, y_pred, sensitive_features) -> float:
-    """
-    Equalized odds difference = max over groups of |TPR_g - TPR_ref| and |FPR_g - FPR_ref|.
-    Implemented as (max TPR - min TPR) and (max FPR - min FPR), then take max of those.
-    """
-    y_true = _to_1d_array(y_true)
-    y_pred = _to_1d_array(y_pred)
-    s = _to_1d_array(sensitive_features)
+def equalized_odds_difference(y_true, y_pred, sensitive) -> float:
+    y_true = _to_numpy(y_true)
+    y_pred = _to_numpy(y_pred)
+    sensitive = _to_numpy(sensitive)
 
-    groups = pd.Series(s).astype(str)
+    groups = np.unique(sensitive)
+    if len(groups) < 2:
+        return 0.0
 
-    tprs = []
-    fprs = []
+    stats = []
+    for g in groups:
+        mask = sensitive == g
+        if mask.sum() == 0:
+            continue
 
-    for g, idx in groups.groupby(groups).groups.items():
-        yt = y_true[list(idx)]
-        yp = y_pred[list(idx)]
+        yt = y_true[mask]
+        yp = y_pred[mask]
+        tn, fp, fn, tp = confusion_matrix(yt, yp, labels=[0, 1]).ravel()
 
-        pos = (yt == 1)
-        neg = (yt == 0)
+        tpr = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        fpr = fp / (fp + tn) if (fp + tn) > 0 else 0.0
+        stats.append((tpr, fpr))
 
-        # TPR = P(ŷ=1 | y=1)
-        if pos.sum() == 0:
-            tpr = np.nan
-        else:
-            tpr = float((yp[pos] == 1).mean())
+    if len(stats) < 2:
+        return 0.0
 
-        # FPR = P(ŷ=1 | y=0)
-        if neg.sum() == 0:
-            fpr = np.nan
-        else:
-            fpr = float((yp[neg] == 1).mean())
-
-        tprs.append(tpr)
-        fprs.append(fpr)
-
-    tprs = np.array(tprs, dtype=float)
-    fprs = np.array(fprs, dtype=float)
-
-    # Drop NaNs if a group has no positives/negatives
-    tprs = tprs[~np.isnan(tprs)]
-    fprs = fprs[~np.isnan(fprs)]
-
-    tpr_gap = float(tprs.max() - tprs.min()) if tprs.size >= 2 else 0.0
-    fpr_gap = float(fprs.max() - fprs.min()) if fprs.size >= 2 else 0.0
-
-    return max(tpr_gap, fpr_gap)
+    tprs = [x[0] for x in stats]
+    fprs = [x[1] for x in stats]
+    return float(max(max(tprs) - min(tprs), max(fprs) - min(fprs)))
 
 
-def predictive_parity_difference(y_true, y_pred, sensitive_features) -> float:
-    """
-    Predictive parity difference = max_group_PPV - min_group_PPV
-    PPV = P(y=1 | ŷ=1)
-    """
-    y_true = _to_1d_array(y_true)
-    y_pred = _to_1d_array(y_pred)
-    s = _to_1d_array(sensitive_features)
+def predictive_parity_difference(y_true, y_pred, sensitive) -> float:
+    y_true = _to_numpy(y_true)
+    y_pred = _to_numpy(y_pred)
+    sensitive = _to_numpy(sensitive)
 
-    groups = pd.Series(s).astype(str)
+    groups = np.unique(sensitive)
+    if len(groups) < 2:
+        return 0.0
 
     ppvs = []
-    for g, idx in groups.groupby(groups).groups.items():
-        yt = y_true[list(idx)]
-        yp = y_pred[list(idx)]
+    for g in groups:
+        mask = sensitive == g
+        if mask.sum() == 0:
+            continue
 
-        pred_pos = (yp == 1)
-        if pred_pos.sum() == 0:
-            ppv = np.nan
+        yt = y_true[mask]
+        yp = y_pred[mask]
+
+        predicted_positive = yp == 1
+        if predicted_positive.sum() == 0:
+            ppv = 0.0
         else:
-            ppv = float((yt[pred_pos] == 1).mean())
+            ppv = float(np.mean(yt[predicted_positive] == 1))
+
         ppvs.append(ppv)
 
-    ppvs = np.array(ppvs, dtype=float)
-    ppvs = ppvs[~np.isnan(ppvs)]
-
-    if ppvs.size <= 1:
+    if len(ppvs) < 2:
         return 0.0
-    return float(ppvs.max() - ppvs.min())
+    return float(max(ppvs) - min(ppvs))
+
+
+def compute_metrics(y_true, y_pred, sensitive) -> Dict[str, float]:
+    y_true = _to_numpy(y_true)
+    y_pred = _to_numpy(y_pred)
+    sensitive = _to_numpy(sensitive)
+
+    return {
+        "accuracy": float(accuracy_score(y_true, y_pred)),
+        "demographic_parity": demographic_parity_difference(y_pred, sensitive),
+        "equalized_odds": equalized_odds_difference(y_true, y_pred, sensitive),
+        "predictive_parity": predictive_parity_difference(y_true, y_pred, sensitive),
+    }
 
 
 def evaluate_model_on_split(
-    model: Any,
-    X_train: pd.DataFrame,
-    y_train: pd.Series,
-    X_test: pd.DataFrame,
-    y_test: pd.Series,
-    sensitive_train: pd.Series,
-    sensitive_test: pd.Series,
-) -> Dict[str, float]:
+    model,
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    sensitive_train=None,
+    sensitive_test=None,
+) -> Dict[str, Any]:
     """
-    Fits model, predicts, and returns:
-      - accuracy
-      - demographic_parity (difference)
-      - equalized_odds (difference)
-      - predictive_parity (difference)
-    Keys must match what src/experiments.py expects.
+    Train a model on the provided split and return benchmark metrics.
+    Converts sparse matrices to dense for models that require dense input.
     """
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
+    if sensitive_test is None:
+        raise ValueError("sensitive_test must be provided")
 
-    acc = float(accuracy_score(y_test, y_pred))
-    dp = demographic_parity_difference(y_pred, sensitive_test)
-    eo = equalized_odds_difference(y_test, y_pred, sensitive_test)
-    pp = predictive_parity_difference(y_test, y_pred, sensitive_test)
+    model_name = model.__class__.__name__
+    dense_required_models = {"GaussianNB"}
+
+    X_train_fit = X_train
+    X_test_fit = X_test
+
+    if model_name in dense_required_models:
+        if hasattr(X_train_fit, "toarray"):
+            X_train_fit = X_train_fit.toarray()
+        if hasattr(X_test_fit, "toarray"):
+            X_test_fit = X_test_fit.toarray()
+
+    model.fit(X_train_fit, y_train)
+    y_pred = model.predict(X_test_fit)
+
+    metrics = compute_metrics(
+        y_true=y_test,
+        y_pred=y_pred,
+        sensitive=sensitive_test,
+    )
 
     return {
-        "accuracy": acc,
-        "demographic_parity": float(dp),
-        "equalized_odds": float(eo),
-        "predictive_parity": float(pp),
+        "accuracy": metrics["accuracy"],
+        "demographic_parity": metrics["demographic_parity"],
+        "equalized_odds": metrics["equalized_odds"],
+        "predictive_parity": metrics["predictive_parity"],
     }
