@@ -313,7 +313,6 @@ crows_acc = float(crows["correct"].mean()) if "correct" in crows.columns else No
 
 bbq_acc = None
 if "correct" in bbq.columns:
-    valid = bbq[crows.columns.intersection(["correct"]).tolist() or ["correct"]]
     valid = bbq[bbq["correct"].isin([True, False])]
     if len(valid) > 0:
         bbq_acc = float(valid["correct"].mean())
@@ -332,31 +331,31 @@ c3.metric(
 )
 
 st.subheader("Tabular benchmark results")
-st.dataframe(results, use_container_width=True)
+st.dataframe(results, width="stretch")
 
 c4, c5 = st.columns(2)
 
 with c4:
     st.subheader("Agreement matrix")
-    st.dataframe(tau, use_container_width=True)
+    st.dataframe(tau, width="stretch")
 
 with c5:
     st.subheader("Fairness-judge summary")
-    st.dataframe(judge_summary, use_container_width=True)
+    st.dataframe(judge_summary, width="stretch")
 
 st.subheader("FairEval vs Existing Tools")
-st.dataframe(tool_comparison, use_container_width=True)
+st.dataframe(tool_comparison, width="stretch")
 
 st.subheader("Generated figures")
 
 fig_col1, fig_col2 = st.columns(2)
 with fig_col1:
-    st.pyplot(plot_accuracy(results, mode), use_container_width=True)
+    st.pyplot(plot_accuracy(results, mode), width="stretch")
 with fig_col2:
-    st.pyplot(plot_dp(results, mode), use_container_width=True)
+    st.pyplot(plot_dp(results, mode), width="stretch")
 
 fig_col3, fig_col4 = st.columns(2)
 with fig_col3:
-    st.pyplot(plot_eo_vs_pp(results, mode), use_container_width=True)
+    st.pyplot(plot_eo_vs_pp(results, mode), width="stretch")
 with fig_col4:
-    st.pyplot(plot_tau_heatmap(tau, mode), use_container_width=True)
+    st.pyplot(plot_tau_heatmap(tau, mode), width="stretch")
