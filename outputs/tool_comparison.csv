@@ -1,0 +1,6 @@
+Tool,Scope,Fairness Metrics Agreement Analysis,ML Benchmarks,LLM Text Branch,Fairness-Judge Experiment,Confidence Intervals,Interactive Dashboard,Reproducible Local Package
+FairEval,Integrated framework,Yes,Yes,Yes (proxy/offline),Yes,Yes,Yes,Yes
+AIF360,Fairness toolkit,No,Yes,No,No,No,No,Partial
+Fairlearn,Fairness toolkit,No,Yes,No,No,No,No,Partial
+HolisticAI,Fairness/ML toolkit,No,Yes,No,No,No,No,Partial
+Custom Notebook Baseline,Ad hoc analysis,Usually no,Maybe,Maybe,No,Usually no,No,Low

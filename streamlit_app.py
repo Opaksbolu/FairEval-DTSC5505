@@ -6,7 +6,6 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent
 OUTPUTS = ROOT / "outputs"
-FIGURES = ROOT / "figures"
 
 st.set_page_config(page_title="FairEval Dashboard", layout="wide")
 
@@ -150,14 +149,13 @@ def get_theme_colors(mode: str):
             "grid": "#2d333b",
             "spine": "#9aa4b2",
         }
-    else:
-        return {
-            "fig_bg": "#ffffff",
-            "ax_bg": "#ffffff",
-            "text": "#111111",
-            "grid": "#d9d9d9",
-            "spine": "#666666",
-        }
+    return {
+        "fig_bg": "#ffffff",
+        "ax_bg": "#ffffff",
+        "text": "#111111",
+        "grid": "#d9d9d9",
+        "spine": "#666666",
+    }
 
 
 def style_axes(ax, colors):
@@ -183,7 +181,7 @@ def plot_accuracy(results, mode):
     ax.set_xlabel("Model")
     ax.set_ylabel("Accuracy")
     style_axes(ax, colors)
-    ax.legend(title="Dataset")
+
     leg = ax.get_legend()
     if leg:
         leg.get_title().set_color(colors["text"])
@@ -191,6 +189,7 @@ def plot_accuracy(results, mode):
             text.set_color(colors["text"])
         leg.get_frame().set_facecolor(colors["ax_bg"])
         leg.get_frame().set_edgecolor(colors["spine"])
+
     fig.tight_layout()
     return fig
 
@@ -207,7 +206,7 @@ def plot_dp(results, mode):
     ax.set_xlabel("Model")
     ax.set_ylabel("Demographic Parity Difference (abs)")
     style_axes(ax, colors)
-    ax.legend(title="Dataset")
+
     leg = ax.get_legend()
     if leg:
         leg.get_title().set_color(colors["text"])
@@ -215,6 +214,7 @@ def plot_dp(results, mode):
             text.set_color(colors["text"])
         leg.get_frame().set_facecolor(colors["ax_bg"])
         leg.get_frame().set_edgecolor(colors["spine"])
+
     fig.tight_layout()
     return fig
 
@@ -245,7 +245,7 @@ def plot_eo_vs_pp(results, mode):
     ax.set_xlabel("Equalized Odds Difference")
     ax.set_ylabel("Predictive Parity Difference")
     style_axes(ax, colors)
-    ax.legend(title="Dataset")
+
     leg = ax.get_legend()
     if leg:
         leg.get_title().set_color(colors["text"])
@@ -253,6 +253,7 @@ def plot_eo_vs_pp(results, mode):
             text.set_color(colors["text"])
         leg.get_frame().set_facecolor(colors["ax_bg"])
         leg.get_frame().set_edgecolor(colors["spine"])
+
     fig.tight_layout()
     return fig
 
@@ -306,11 +307,13 @@ alpha = (OUTPUTS / "agreement_krippendorff_alpha.txt").read_text().strip()
 judge_summary = pd.read_csv(OUTPUTS / "fairness_judge_summary.csv")
 crows = pd.read_csv(OUTPUTS / "crows_pairs_llm_eval.csv")
 bbq = pd.read_csv(OUTPUTS / "bbq_llm_eval.csv")
+tool_comparison = pd.read_csv(OUTPUTS / "tool_comparison.csv")
 
 crows_acc = float(crows["correct"].mean()) if "correct" in crows.columns else None
 
 bbq_acc = None
 if "correct" in bbq.columns:
+    valid = bbq[crows.columns.intersection(["correct"]).tolist() or ["correct"]]
     valid = bbq[bbq["correct"].isin([True, False])]
     if len(valid) > 0:
         bbq_acc = float(valid["correct"].mean())
@@ -341,17 +344,18 @@ with c5:
     st.subheader("Fairness-judge summary")
     st.dataframe(judge_summary, use_container_width=True)
 
+st.subheader("FairEval vs Existing Tools")
+st.dataframe(tool_comparison, use_container_width=True)
+
 st.subheader("Generated figures")
 
 fig_col1, fig_col2 = st.columns(2)
-
 with fig_col1:
     st.pyplot(plot_accuracy(results, mode), use_container_width=True)
 with fig_col2:
     st.pyplot(plot_dp(results, mode), use_container_width=True)
 
 fig_col3, fig_col4 = st.columns(2)
-
 with fig_col3:
     st.pyplot(plot_eo_vs_pp(results, mode), use_container_width=True)
 with fig_col4:
