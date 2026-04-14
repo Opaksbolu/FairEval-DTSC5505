@@ -31,19 +31,46 @@ light_css = """
   --bg: #ffffff;
   --card: #f7f7f7;
   --text: #111111;
-  --muted: #555555;
-  --border: #dddddd;
+  --muted: #444444;
+  --border: #d9d9d9;
 }
-.block-container {
-  background-color: var(--bg);
-  color: var(--text);
-}
-div[data-testid="stMetric"], div[data-testid="stDataFrame"], .stMarkdown, .stTable {
+
+html, body, [data-testid="stAppViewContainer"], .main {
+  background-color: var(--bg) !important;
   color: var(--text) !important;
 }
-section[data-testid="stSidebar"] {
-  background-color: #f5f5f5;
+
+.block-container {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
 }
+
+section[data-testid="stSidebar"] {
+  background-color: #f3f4f6 !important;
+  color: var(--text) !important;
+}
+
+h1, h2, h3, h4, h5, h6, p, label, div, span {
+  color: var(--text) !important;
+}
+
+div[data-testid="stMetric"] {
+  background-color: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  padding: 0.5rem !important;
+}
+
+div[data-testid="stMetric"] label,
+div[data-testid="stMetric"] div {
+  color: var(--text) !important;
+}
+
+div[data-testid="stDataFrame"] *,
+table, th, td {
+  color: var(--text) !important;
+}
+
 .custom-card {
   background: var(--card);
   border: 1px solid var(--border);
