@@ -8,10 +8,92 @@ FIGURES = ROOT / "figures"
 
 st.set_page_config(page_title="FairEval Dashboard", layout="wide")
 
+# ----------------------------
+# Appearance toggle
+# ----------------------------
+if "appearance_mode" not in st.session_state:
+    st.session_state.appearance_mode = "Auto"
+
+with st.sidebar:
+    st.header("Dashboard Settings")
+    appearance = st.selectbox(
+        "Appearance",
+        ["Auto", "Light", "Dark"],
+        index=["Auto", "Light", "Dark"].index(st.session_state.appearance_mode),
+    )
+    st.session_state.appearance_mode = appearance
+
+mode = st.session_state.appearance_mode
+
+light_css = """
+<style>
+:root {
+  --bg: #ffffff;
+  --card: #f7f7f7;
+  --text: #111111;
+  --muted: #555555;
+  --border: #dddddd;
+}
+.block-container {
+  background-color: var(--bg);
+  color: var(--text);
+}
+div[data-testid="stMetric"], div[data-testid="stDataFrame"], .stMarkdown, .stTable {
+  color: var(--text) !important;
+}
+section[data-testid="stSidebar"] {
+  background-color: #f5f5f5;
+}
+.custom-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+</style>
+"""
+
+dark_css = """
+<style>
+:root {
+  --bg: #0e1117;
+  --card: #161b22;
+  --text: #f3f3f3;
+  --muted: #b3b3b3;
+  --border: #2d333b;
+}
+.block-container {
+  background-color: var(--bg);
+  color: var(--text);
+}
+div[data-testid="stMetric"], div[data-testid="stDataFrame"], .stMarkdown, .stTable {
+  color: var(--text) !important;
+}
+section[data-testid="stSidebar"] {
+  background-color: #111827;
+}
+.custom-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+</style>
+"""
+
+if mode == "Light":
+    st.markdown(light_css, unsafe_allow_html=True)
+elif mode == "Dark":
+    st.markdown(dark_css, unsafe_allow_html=True)
+
 st.title("FairEval Dashboard")
 st.caption("Interactive Streamlit dashboard for Milestone 6 inspection and presentation.")
 
+# ----------------------------
 # Load outputs
+# ----------------------------
 results = pd.read_csv(OUTPUTS / "results.csv")
 tau = pd.read_csv(OUTPUTS / "agreement_kendall_tau.csv", index_col=0)
 alpha = (OUTPUTS / "agreement_krippendorff_alpha.txt").read_text().strip()
@@ -20,7 +102,6 @@ judge_summary = pd.read_csv(OUTPUTS / "fairness_judge_summary.csv")
 crows = pd.read_csv(OUTPUTS / "crows_pairs_llm_eval.csv")
 bbq = pd.read_csv(OUTPUTS / "bbq_llm_eval.csv")
 
-# Summary metrics
 crows_acc = float(crows["correct"].mean()) if "correct" in crows.columns else None
 
 bbq_acc = None
