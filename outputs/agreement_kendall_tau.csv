@@ -1,4 +1,5 @@
-,Demographic Parity,Equalized Odds,Predictive Parity
-Demographic Parity,1.0,0.8095238095238096,0.33333333333333337
-Equalized Odds,0.8095238095238096,1.0,0.14285714285714288
-Predictive Parity,0.33333333333333337,0.14285714285714288,1.0
+,Accuracy,Demographic Parity,Equalized Odds,Predictive Parity
+Accuracy,1.0,0.0,0.0,-0.6666666666666669
+Demographic Parity,0.0,1.0,1.0,0.3333333333333334
+Equalized Odds,0.0,1.0,1.0,0.3333333333333334
+Predictive Parity,-0.6666666666666669,0.3333333333333334,0.3333333333333334,1.0

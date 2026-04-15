@@ -21,9 +21,9 @@ th{background:#f0f0f0}
 <div class='grid'>
   <div class='card'>
     <h2>Core benchmark summary</h2>
-    <p><strong>Krippendorff's alpha:</strong> 0.625850</p>
-    <p><strong>CrowS-Pairs proxy accuracy:</strong> 1.000</p>
-    <p><strong>BBQ proxy accuracy:</strong> 0.425</p>
+    <p><strong>Krippendorff's alpha:</strong> 0.281250</p>
+    <p><strong>CrowS-Pairs proxy accuracy:</strong> 0.940</p>
+    <p><strong>BBQ proxy accuracy:</strong> 0.795</p>
     <h3>Tabular results</h3>
     <table border="1" class="dataframe">
   <thead>
@@ -34,352 +34,104 @@ th{background:#f0f0f0}
       <th>Demographic Parity</th>
       <th>Equalized Odds</th>
       <th>Predictive Parity</th>
-      <th>Accuracy_CI_Low</th>
-      <th>Accuracy_CI_High</th>
-      <th>DP_CI_Low</th>
-      <th>DP_CI_High</th>
-      <th>EO_CI_Low</th>
-      <th>EO_CI_High</th>
-      <th>PP_CI_Low</th>
-      <th>PP_CI_High</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>adult</td>
-      <td>LogisticRegression</td>
+      <td>Adult</td>
+      <td>Logistic Regression</td>
       <td>0.854318</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>0.846696</td>
-      <td>0.861212</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
     </tr>
     <tr>
-      <td>adult</td>
-      <td>RandomForest</td>
-      <td>0.856652</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.849033</td>
-      <td>0.863414</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <td>adult</td>
-      <td>DecisionTree</td>
+      <td>Adult</td>
+      <td>Decision Tree</td>
       <td>0.816853</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>0.807886</td>
-      <td>0.825209</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>Adult</td>
+      <td>Random Forest</td>
+      <td>0.856652</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
     </tr>
     <tr>
-      <td>adult</td>
-      <td>SVM</td>
-      <td>0.858248</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.851102</td>
-      <td>0.864513</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <td>adult</td>
-      <td>KNN</td>
-      <td>0.836138</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.828882</td>
-      <td>0.844254</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <td>adult</td>
-      <td>GradientBoosting</td>
-      <td>0.867830</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.860825</td>
-      <td>0.873274</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <td>adult</td>
+      <td>Adult</td>
       <td>GaussianNB</td>
       <td>0.522540</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>0.512830</td>
-      <td>0.535819</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
     </tr>
     <tr>
-      <td>compas</td>
-      <td>LogisticRegression</td>
+      <td>COMPAS</td>
+      <td>Logistic Regression</td>
       <td>0.982262</td>
       <td>0.116067</td>
       <td>0.035326</td>
       <td>0.055794</td>
-      <td>0.975610</td>
-      <td>0.988373</td>
-      <td>0.114299</td>
-      <td>0.750000</td>
-      <td>0.024448</td>
-      <td>1.000000</td>
-      <td>0.031629</td>
-      <td>1.000000</td>
     </tr>
     <tr>
-      <td>compas</td>
-      <td>RandomForest</td>
-      <td>0.973947</td>
-      <td>0.132690</td>
-      <td>0.056277</td>
-      <td>0.079498</td>
-      <td>0.966727</td>
-      <td>0.982262</td>
-      <td>0.123266</td>
-      <td>0.750000</td>
-      <td>0.044484</td>
-      <td>1.000000</td>
-      <td>0.051488</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <td>compas</td>
-      <td>DecisionTree</td>
+      <td>COMPAS</td>
+      <td>Decision Tree</td>
       <td>0.988914</td>
       <td>0.125571</td>
       <td>0.013587</td>
       <td>0.022422</td>
-      <td>0.984479</td>
-      <td>0.993348</td>
-      <td>0.119253</td>
-      <td>0.750000</td>
-      <td>0.011254</td>
-      <td>1.000000</td>
-      <td>0.012811</td>
-      <td>1.000000</td>
     </tr>
     <tr>
-      <td>compas</td>
-      <td>SVM</td>
-      <td>0.979490</td>
-      <td>0.125528</td>
-      <td>0.043290</td>
-      <td>0.063830</td>
-      <td>0.972810</td>
-      <td>0.986696</td>
-      <td>0.115282</td>
-      <td>0.750000</td>
-      <td>0.032356</td>
-      <td>1.000000</td>
-      <td>0.041647</td>
-      <td>1.000000</td>
+      <td>COMPAS</td>
+      <td>Random Forest</td>
+      <td>0.973947</td>
+      <td>0.132690</td>
+      <td>0.056277</td>
+      <td>0.079498</td>
     </tr>
     <tr>
-      <td>compas</td>
-      <td>KNN</td>
-      <td>0.974501</td>
-      <td>0.128300</td>
-      <td>0.066667</td>
-      <td>0.059829</td>
-      <td>0.966172</td>
-      <td>0.982262</td>
-      <td>0.121582</td>
-      <td>0.750000</td>
-      <td>0.041654</td>
-      <td>1.000000</td>
-      <td>0.042940</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <td>compas</td>
-      <td>GradientBoosting</td>
-      <td>0.991131</td>
-      <td>0.132888</td>
-      <td>0.021645</td>
-      <td>0.022222</td>
-      <td>0.986696</td>
-      <td>0.995011</td>
-      <td>0.121197</td>
-      <td>0.750000</td>
-      <td>0.012987</td>
-      <td>1.000000</td>
-      <td>0.016021</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <td>compas</td>
+      <td>COMPAS</td>
       <td>GaussianNB</td>
       <td>0.924058</td>
       <td>0.300000</td>
       <td>0.500000</td>
       <td>0.071770</td>
-      <td>0.910200</td>
-      <td>0.934049</td>
-      <td>0.132632</td>
-      <td>0.835000</td>
-      <td>0.127581</td>
-      <td>1.000000</td>
-      <td>0.049714</td>
-      <td>1.000000</td>
     </tr>
     <tr>
-      <td>german</td>
-      <td>LogisticRegression</td>
+      <td>German Credit</td>
+      <td>Logistic Regression</td>
       <td>0.724000</td>
       <td>0.103596</td>
       <td>0.108818</td>
       <td>0.033604</td>
-      <td>0.667900</td>
-      <td>0.772100</td>
-      <td>0.007593</td>
-      <td>0.240646</td>
-      <td>0.032925</td>
-      <td>0.345272</td>
-      <td>0.001575</td>
-      <td>0.182158</td>
     </tr>
     <tr>
-      <td>german</td>
-      <td>RandomForest</td>
-      <td>0.756000</td>
-      <td>0.112304</td>
-      <td>0.180000</td>
-      <td>0.016783</td>
-      <td>0.699900</td>
-      <td>0.804100</td>
-      <td>0.009487</td>
-      <td>0.237199</td>
-      <td>0.033606</td>
-      <td>0.434529</td>
-      <td>0.002096</td>
-      <td>0.164622</td>
-    </tr>
-    <tr>
-      <td>german</td>
-      <td>DecisionTree</td>
+      <td>German Credit</td>
+      <td>Decision Tree</td>
       <td>0.676000</td>
       <td>0.000450</td>
       <td>0.060000</td>
       <td>0.054067</td>
-      <td>0.627900</td>
-      <td>0.732000</td>
-      <td>0.005527</td>
-      <td>0.142265</td>
-      <td>0.019322</td>
-      <td>0.282611</td>
-      <td>0.001028</td>
-      <td>0.192072</td>
     </tr>
     <tr>
-      <td>german</td>
-      <td>SVM</td>
-      <td>0.764000</td>
-      <td>0.090684</td>
-      <td>0.100000</td>
-      <td>0.011809</td>
-      <td>0.715900</td>
-      <td>0.808100</td>
-      <td>0.003606</td>
-      <td>0.206346</td>
-      <td>0.022538</td>
-      <td>0.343915</td>
-      <td>0.002389</td>
-      <td>0.149236</td>
+      <td>German Credit</td>
+      <td>Random Forest</td>
+      <td>0.756000</td>
+      <td>0.112304</td>
+      <td>0.180000</td>
+      <td>0.016783</td>
     </tr>
     <tr>
-      <td>german</td>
-      <td>KNN</td>
-      <td>0.716000</td>
-      <td>0.118159</td>
-      <td>0.240000</td>
-      <td>0.024150</td>
-      <td>0.664000</td>
-      <td>0.768000</td>
-      <td>0.016376</td>
-      <td>0.248835</td>
-      <td>0.077103</td>
-      <td>0.487369</td>
-      <td>0.001655</td>
-      <td>0.147934</td>
-    </tr>
-    <tr>
-      <td>german</td>
-      <td>GradientBoosting</td>
-      <td>0.752000</td>
-      <td>0.027100</td>
-      <td>0.200000</td>
-      <td>0.049808</td>
-      <td>0.699700</td>
-      <td>0.808000</td>
-      <td>0.001303</td>
-      <td>0.146764</td>
-      <td>0.055014</td>
-      <td>0.432737</td>
-      <td>0.002499</td>
-      <td>0.164659</td>
-    </tr>
-    <tr>
-      <td>german</td>
+      <td>German Credit</td>
       <td>GaussianNB</td>
       <td>0.700000</td>
       <td>0.101944</td>
       <td>0.120000</td>
       <td>0.011905</td>
-      <td>0.632000</td>
-      <td>0.760000</td>
-      <td>0.009968</td>
-      <td>0.239917</td>
-      <td>0.036213</td>
-      <td>0.323555</td>
-      <td>0.004048</td>
-      <td>0.152584</td>
     </tr>
   </tbody>
 </table>
@@ -390,6 +142,7 @@ th{background:#f0f0f0}
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>Accuracy</th>
       <th>Demographic Parity</th>
       <th>Equalized Odds</th>
       <th>Predictive Parity</th>
@@ -397,21 +150,31 @@ th{background:#f0f0f0}
   </thead>
   <tbody>
     <tr>
-      <th>Demographic Parity</th>
+      <th>Accuracy</th>
       <td>1.000000</td>
-      <td>0.809524</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.666667</td>
+    </tr>
+    <tr>
+      <th>Demographic Parity</th>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
       <td>0.333333</td>
     </tr>
     <tr>
       <th>Equalized Odds</th>
-      <td>0.809524</td>
+      <td>0.000000</td>
       <td>1.000000</td>
-      <td>0.142857</td>
+      <td>1.000000</td>
+      <td>0.333333</td>
     </tr>
     <tr>
       <th>Predictive Parity</th>
+      <td>-0.666667</td>
       <td>0.333333</td>
-      <td>0.142857</td>
+      <td>0.333333</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -429,9 +192,9 @@ th{background:#f0f0f0}
   <tbody>
     <tr>
       <td>50</td>
-      <td>1.0</td>
+      <td>0.0</td>
       <td>0.46</td>
-      <td>0.46</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
