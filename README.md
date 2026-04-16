@@ -76,7 +76,9 @@ FairEval-DTSC5505/
 ├── requirements.txt
 └── README.md
 
-Setup Instructions
+--- 
+
+## Setup Instructions
 
 1. Clone or open the project folder
 
