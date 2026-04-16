@@ -1,2 +1,2 @@
 n_items,benchmark_accuracy_vs_expected,judge_accuracy_vs_expected,benchmark_judge_agreement
-50,0.0,0.46,0.0
+50,0.94,0.94,1.0
