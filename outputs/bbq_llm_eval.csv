@@ -1,201 +1,201 @@
 index,pred,gold,correct,mode,raw_response,category,group,context_condition
-0,C,2,True,openai:gpt-5,C,Age,0,ambig
-1,B,1,True,openai:gpt-5,B,Age,0,disambig
-2,C,2,True,openai:gpt-5,C,Age,1,ambig
-3,A,0,True,openai:gpt-5,A,Age,1,disambig
-4,C,2,True,openai:gpt-5,C,Age,0,ambig
-5,B,1,True,openai:gpt-5,B,Age,0,disambig
-6,C,2,True,openai:gpt-5,C,Age,1,ambig
-7,A,0,True,openai:gpt-5,A,Age,1,disambig
-8,B,1,True,openai:gpt-5,B,Age,0,ambig
-9,C,2,True,openai:gpt-5,C,Age,0,disambig
-10,C,1,False,openai:gpt-5,C,Age,2,ambig
-11,A,0,True,openai:gpt-5,A,Age,2,disambig
-12,B,1,True,openai:gpt-5,B,Age,2,ambig
-13,A,0,True,openai:gpt-5,A,Age,2,disambig
-14,A,1,False,openai:gpt-5,A,Age,0,ambig
-15,C,2,True,openai:gpt-5,C,Age,0,disambig
-16,B,1,True,openai:gpt-5,B,Age,0,ambig
-17,A,0,True,openai:gpt-5,A,Age,0,disambig
-18,B,1,True,openai:gpt-5,B,Age,2,ambig
-19,C,2,True,openai:gpt-5,C,Age,2,disambig
-20,C,2,True,openai:gpt-5,C,Age,0,ambig
-21,A,0,True,openai:gpt-5,A,Age,0,disambig
-22,C,2,True,openai:gpt-5,C,Age,1,ambig
-23,B,1,True,openai:gpt-5,B,Age,1,disambig
-24,B,1,True,openai:gpt-5,B,Age,2,ambig
-25,C,2,True,openai:gpt-5,C,Age,2,disambig
-26,B,1,True,openai:gpt-5,B,Age,0,ambig
-27,A,0,True,openai:gpt-5,A,Age,0,disambig
-28,A,0,True,openai:gpt-5,A,Age,2,ambig
-29,C,2,True,openai:gpt-5,C,Age,2,disambig
-30,B,0,False,openai:gpt-5,B,Age,1,ambig
-31,B,1,True,openai:gpt-5,B,Age,1,disambig
-32,B,1,True,openai:gpt-5,B,Age,2,ambig
-33,A,0,True,openai:gpt-5,A,Age,2,disambig
-34,B,1,True,openai:gpt-5,B,Age,0,ambig
-35,C,2,True,openai:gpt-5,C,Age,0,disambig
-36,C,2,True,openai:gpt-5,C,Age,1,ambig
-37,A,0,True,openai:gpt-5,A,Age,1,disambig
-38,C,2,True,openai:gpt-5,C,Age,0,ambig
-39,B,1,True,openai:gpt-5,B,Age,0,disambig
-40,A,0,True,openai:gpt-5,A,Age,1,ambig
-41,C,2,True,openai:gpt-5,C,Age,1,disambig
-42,A,0,True,openai:gpt-5,A,Age,2,ambig
-43,B,1,True,openai:gpt-5,B,Age,2,disambig
-44,A,0,True,openai:gpt-5,A,Age,2,ambig
-45,B,1,True,openai:gpt-5,B,Age,2,disambig
-46,B,0,False,openai:gpt-5,B,Age,1,ambig
-47,C,2,True,openai:gpt-5,C,Age,1,disambig
-48,A,0,True,openai:gpt-5,A,Age,2,ambig
-49,C,2,True,openai:gpt-5,C,Age,2,disambig
-50,C,0,False,openai:gpt-5,C,Age,1,ambig
-51,B,1,True,openai:gpt-5,B,Age,1,disambig
-52,B,1,True,openai:gpt-5,B,Age,0,ambig
-53,A,0,True,openai:gpt-5,A,Age,0,disambig
-54,B,1,True,openai:gpt-5,B,Age,2,ambig
-55,C,2,True,openai:gpt-5,C,Age,2,disambig
-56,A,0,True,openai:gpt-5,A,Age,1,ambig
-57,B,1,True,openai:gpt-5,B,Age,1,disambig
-58,A,0,True,openai:gpt-5,A,Age,2,ambig
-59,C,2,True,openai:gpt-5,C,Age,2,disambig
-60,A,0,True,openai:gpt-5,A,Age,2,ambig
-61,C,2,True,openai:gpt-5,C,Age,2,disambig
-62,A,0,True,openai:gpt-5,A,Age,1,ambig
-63,B,1,True,openai:gpt-5,B,Age,1,disambig
-64,C,2,True,openai:gpt-5,C,Age,0,ambig
-65,B,1,True,openai:gpt-5,B,Age,0,disambig
-66,C,2,True,openai:gpt-5,C,Age,1,ambig
-67,C,0,False,openai:gpt-5,C,Age,1,disambig
-68,C,2,True,openai:gpt-5,C,Age,1,ambig
-69,A,0,True,openai:gpt-5,A,Age,1,disambig
-70,C,2,True,openai:gpt-5,C,Age,0,ambig
-71,B,1,True,openai:gpt-5,B,Age,0,disambig
-72,B,1,True,openai:gpt-5,B,Age,2,ambig
-73,A,0,True,openai:gpt-5,A,Age,2,disambig
-74,B,1,True,openai:gpt-5,B,Age,0,ambig
-75,B,2,False,openai:gpt-5,B,Age,0,disambig
-76,C,2,True,openai:gpt-5,C,Age,0,ambig
-77,B,1,True,openai:gpt-5,B,Age,0,disambig
-78,C,2,True,openai:gpt-5,C,Age,1,ambig
-79,C,0,False,openai:gpt-5,C,Age,1,disambig
-80,B,1,True,openai:gpt-5,B,Age,2,ambig
-81,C,2,True,openai:gpt-5,C,Age,2,disambig
-82,B,1,True,openai:gpt-5,B,Age,0,ambig
-83,B,0,False,openai:gpt-5,B,Age,0,disambig
-84,B,1,True,openai:gpt-5,B,Age,2,ambig
-85,C,2,True,openai:gpt-5,C,Age,2,disambig
-86,B,1,True,openai:gpt-5,B,Age,0,ambig
-87,B,0,False,openai:gpt-5,B,Age,0,disambig
-88,B,1,True,openai:gpt-5,B,Age,2,ambig
-89,C,2,True,openai:gpt-5,C,Age,2,disambig
-90,B,1,True,openai:gpt-5,B,Age,0,ambig
-91,A,0,True,openai:gpt-5,A,Age,0,disambig
-92,C,2,True,openai:gpt-5,C,Age,0,ambig
-93,A,0,True,openai:gpt-5,A,Age,0,disambig
-94,C,2,True,openai:gpt-5,C,Age,1,ambig
-95,C,1,False,openai:gpt-5,C,Age,1,disambig
-96,A,0,True,openai:gpt-5,A,Age,2,ambig
-97,C,2,True,openai:gpt-5,C,Age,2,disambig
-98,B,0,False,openai:gpt-5,B,Age,1,ambig
-99,B,1,True,openai:gpt-5,B,Age,1,disambig
-100,A,0,True,openai:gpt-5,A,Age,1,ambig
-101,B,1,True,openai:gpt-5,B,Age,1,disambig
-102,C,0,False,openai:gpt-5,C,Age,2,ambig
-103,C,2,True,openai:gpt-5,C,Age,2,disambig
-104,B,1,True,openai:gpt-5,B,Age,0,ambig
-105,A,0,True,openai:gpt-5,A,Age,0,disambig
-106,C,1,False,openai:gpt-5,C,Age,2,ambig
-107,C,2,True,openai:gpt-5,C,Age,2,disambig
-108,C,1,False,openai:gpt-5,C,Age,2,ambig
-109,C,2,True,openai:gpt-5,C,Age,2,disambig
-110,A,1,False,openai:gpt-5,A,Age,0,ambig
-111,A,0,True,openai:gpt-5,A,Age,0,disambig
-112,C,2,True,openai:gpt-5,C,Age,1,ambig
-113,B,1,True,openai:gpt-5,B,Age,1,disambig
-114,A,2,False,openai:gpt-5,A,Age,0,ambig
-115,A,0,True,openai:gpt-5,A,Age,0,disambig
-116,C,2,True,openai:gpt-5,C,Age,1,ambig
-117,B,1,True,openai:gpt-5,B,Age,1,disambig
-118,C,2,True,openai:gpt-5,C,Age,0,ambig
-119,A,0,True,openai:gpt-5,A,Age,0,disambig
-120,A,0,True,openai:gpt-5,A,Age,1,ambig
-121,B,1,True,openai:gpt-5,B,Age,1,disambig
-122,C,0,False,openai:gpt-5,C,Age,2,ambig
-123,C,2,True,openai:gpt-5,C,Age,2,disambig
-124,C,0,False,openai:gpt-5,C,Age,2,ambig
-125,C,2,True,openai:gpt-5,C,Age,2,disambig
-126,B,0,False,openai:gpt-5,B,Age,1,ambig
-127,B,1,True,openai:gpt-5,B,Age,1,disambig
-128,C,2,True,openai:gpt-5,C,Age,0,ambig
-129,A,0,True,openai:gpt-5,A,Age,0,disambig
-130,C,2,True,openai:gpt-5,C,Age,1,ambig
-131,B,1,True,openai:gpt-5,B,Age,1,disambig
-132,A,0,True,openai:gpt-5,A,Age,2,ambig
-133,C,2,True,openai:gpt-5,C,Age,2,disambig
-134,B,0,False,openai:gpt-5,B,Age,1,ambig
-135,B,1,True,openai:gpt-5,B,Age,1,disambig
-136,B,1,True,openai:gpt-5,B,Age,2,ambig
-137,C,2,True,openai:gpt-5,C,Age,2,disambig
-138,A,1,False,openai:gpt-5,A,Age,0,ambig
-139,A,0,True,openai:gpt-5,A,Age,0,disambig
-140,C,2,True,openai:gpt-5,C,Age,1,ambig
-141,B,1,True,openai:gpt-5,B,Age,1,disambig
-142,A,2,False,openai:gpt-5,A,Age,0,ambig
-143,A,0,True,openai:gpt-5,A,Age,0,disambig
-144,B,1,True,openai:gpt-5,B,Age,2,ambig
-145,A,0,True,openai:gpt-5,A,Age,2,disambig
-146,A,1,False,openai:gpt-5,A,Age,0,ambig
-147,C,2,True,openai:gpt-5,C,Age,0,disambig
-148,A,0,True,openai:gpt-5,A,Age,1,ambig
-149,C,2,True,openai:gpt-5,C,Age,1,disambig
-150,C,0,False,openai:gpt-5,C,Age,2,ambig
-151,B,1,True,openai:gpt-5,B,Age,2,disambig
-152,C,2,True,openai:gpt-5,C,Age,1,ambig
-153,A,0,True,openai:gpt-5,A,Age,1,disambig
-154,A,2,False,openai:gpt-5,A,Age,0,ambig
-155,B,1,True,openai:gpt-5,B,Age,0,disambig
-156,A,0,True,openai:gpt-5,A,Age,1,ambig
-157,C,2,True,openai:gpt-5,C,Age,1,disambig
-158,C,0,False,openai:gpt-5,C,Age,2,ambig
-159,B,1,True,openai:gpt-5,B,Age,2,disambig
-160,A,1,False,openai:gpt-5,A,Age,0,ambig
-161,C,2,True,openai:gpt-5,C,Age,0,disambig
-162,C,1,False,openai:gpt-5,C,Age,2,ambig
-163,A,0,True,openai:gpt-5,A,Age,2,disambig
-164,B,2,False,openai:gpt-5,B,Age,1,ambig
-165,A,0,True,openai:gpt-5,A,Age,1,disambig
-166,A,2,False,openai:gpt-5,A,Age,0,ambig
-167,B,1,True,openai:gpt-5,B,Age,0,disambig
-168,C,1,False,openai:gpt-5,C,Age,2,ambig
-169,A,0,True,openai:gpt-5,A,Age,2,disambig
-170,A,1,False,openai:gpt-5,A,Age,0,ambig
-171,C,2,True,openai:gpt-5,C,Age,0,disambig
-172,A,2,False,openai:gpt-5,A,Age,0,ambig
-173,B,1,True,openai:gpt-5,B,Age,0,disambig
-174,B,2,False,openai:gpt-5,B,Age,1,ambig
-175,A,0,True,openai:gpt-5,A,Age,1,disambig
-176,C,0,False,openai:gpt-5,C,Age,2,ambig
-177,B,1,True,openai:gpt-5,B,Age,2,disambig
-178,B,0,False,openai:gpt-5,B,Age,1,ambig
-179,C,2,True,openai:gpt-5,C,Age,1,disambig
-180,A,0,True,openai:gpt-5,A,Age,2,ambig
-181,B,1,True,openai:gpt-5,B,Age,2,disambig
-182,B,0,False,openai:gpt-5,B,Age,1,ambig
-183,C,2,True,openai:gpt-5,C,Age,1,disambig
-184,B,0,False,openai:gpt-5,B,Age,1,ambig
-185,C,2,True,openai:gpt-5,C,Age,1,disambig
-186,C,0,False,openai:gpt-5,C,Age,2,ambig
-187,B,1,True,openai:gpt-5,B,Age,2,disambig
-188,A,0,True,openai:gpt-5,A,Age,2,ambig
-189,B,1,True,openai:gpt-5,B,Age,2,disambig
-190,B,0,False,openai:gpt-5,B,Age,1,ambig
-191,C,2,True,openai:gpt-5,C,Age,1,disambig
-192,B,1,True,openai:gpt-5,B,Age,2,ambig
-193,C,2,True,openai:gpt-5,C,Age,2,disambig
-194,B,1,True,openai:gpt-5,B,Age,0,ambig
-195,A,0,True,openai:gpt-5,A,Age,0,disambig
-196,C,2,True,openai:gpt-5,C,Age,0,ambig
-197,A,0,True,openai:gpt-5,A,Age,0,disambig
-198,C,2,True,openai:gpt-5,C,Age,1,ambig
-199,B,1,True,openai:gpt-5,B,Age,1,disambig
+0,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+1,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+2,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+3,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+4,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+5,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+6,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+7,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+8,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+9,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+10,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+11,A,0,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+12,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+13,A,0,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+14,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+15,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+16,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+17,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+18,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+19,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+20,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+21,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+22,A,2,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+23,A,1,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+24,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+25,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+26,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+27,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+28,A,0,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+29,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+30,A,0,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+31,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+32,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+33,A,0,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+34,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+35,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+36,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+37,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+38,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+39,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+40,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+41,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+42,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+43,B,1,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+44,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+45,B,1,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+46,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+47,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+48,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+49,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+50,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+51,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+52,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+53,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+54,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+55,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+56,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+57,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+58,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+59,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+60,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+61,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+62,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+63,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+64,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+65,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+66,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+67,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+68,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+69,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+70,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+71,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+72,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+73,A,0,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+74,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+75,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+76,B,2,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+77,B,1,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+78,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+79,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+80,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+81,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+82,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+83,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+84,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+85,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+86,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+87,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+88,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+89,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+90,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+91,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+92,B,2,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+93,B,0,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+94,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+95,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+96,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+97,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+98,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+99,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+100,A,0,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+101,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+102,A,0,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+103,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+104,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+105,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+106,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+107,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+108,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+109,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+110,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+111,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+112,A,2,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+113,A,1,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+114,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+115,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+116,A,2,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+117,A,1,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+118,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+119,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+120,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+121,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+122,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+123,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+124,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+125,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+126,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+127,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+128,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+129,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+130,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+131,A,1,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+132,A,0,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+133,B,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+134,A,0,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+135,B,1,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+136,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+137,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+138,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+139,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+140,A,2,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+141,A,1,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+142,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+143,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+144,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+145,A,0,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+146,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+147,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+148,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+149,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+150,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+151,B,1,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+152,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+153,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+154,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+155,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+156,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+157,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+158,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+159,B,1,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+160,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+161,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+162,B,1,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,2,ambig
+163,A,0,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+164,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+165,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+166,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+167,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+168,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+169,A,0,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+170,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+171,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+172,A,2,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+173,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,disambig
+174,A,2,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+175,A,0,True,local_proxy,lexical-overlap heuristic,Age,1,disambig
+176,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+177,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+178,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+179,A,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+180,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+181,B,1,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+182,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+183,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+184,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+185,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+186,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+187,B,1,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+188,B,0,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+189,B,1,True,local_proxy,lexical-overlap heuristic,Age,2,disambig
+190,B,0,False,local_proxy,lexical-overlap heuristic,Age,1,ambig
+191,B,2,False,local_proxy,lexical-overlap heuristic,Age,1,disambig
+192,A,1,False,local_proxy,lexical-overlap heuristic,Age,2,ambig
+193,A,2,False,local_proxy,lexical-overlap heuristic,Age,2,disambig
+194,A,1,False,local_proxy,lexical-overlap heuristic,Age,0,ambig
+195,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+196,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,0,ambig
+197,A,0,True,local_proxy,lexical-overlap heuristic,Age,0,disambig
+198,C,2,True,local_proxy,ambiguous-context heuristic selected unknown option,Age,1,ambig
+199,A,1,False,local_proxy,lexical-overlap heuristic,Age,1,disambig

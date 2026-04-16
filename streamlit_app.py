@@ -1,361 +1,470 @@
+from __future__ import annotations
+
 from pathlib import Path
+from typing import Optional
+
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
-import numpy as np
+from PIL import Image
 
-ROOT = Path(__file__).resolve().parent
-OUTPUTS = ROOT / "outputs"
 
-st.set_page_config(page_title="FairEval Dashboard", layout="wide")
+# -----------------------------
+# Page setup
+# -----------------------------
+st.set_page_config(
+    page_title="FairEval Dashboard",
+    page_icon="⚖️",
+    layout="wide",
+)
 
-# ----------------------------
-# Appearance toggle
-# ----------------------------
-if "appearance_mode" not in st.session_state:
-    st.session_state.appearance_mode = "Auto"
 
-with st.sidebar:
-    st.header("Dashboard Settings")
-    st.selectbox(
-        "Appearance",
-        ["Auto", "Light", "Dark"],
-        key="appearance_mode",
+# -----------------------------
+# Paths
+# -----------------------------
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUTS_DIR = BASE_DIR / "outputs"
+FIGURES_DIR = BASE_DIR / "figures"
+
+
+# -----------------------------
+# Helpers
+# -----------------------------
+def safe_read_csv(path: Path) -> Optional[pd.DataFrame]:
+    if path.exists():
+        try:
+            return pd.read_csv(path)
+        except Exception:
+            return None
+    return None
+
+
+def safe_read_text(path: Path) -> Optional[str]:
+    if path.exists():
+        try:
+            return path.read_text(encoding="utf-8").strip()
+        except Exception:
+            return None
+    return None
+
+
+def safe_float_text(path: Path) -> Optional[float]:
+    text = safe_read_text(path)
+    if text is None or text == "":
+        return None
+    try:
+        return float(text)
+    except Exception:
+        return None
+
+
+def metric_card(label: str, value: str):
+    st.markdown(
+        f"""
+        <div style="
+            padding: 0.9rem 0.2rem 0.4rem 0.2rem;
+            border-radius: 12px;
+        ">
+            <div style="font-size: 0.95rem; opacity: 0.9;">{label}</div>
+            <div style="font-size: 2rem; font-weight: 700; line-height: 1.2;">{value}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-mode = st.session_state.appearance_mode
 
-light_css = """
-<style>
-:root {
-  --bg: #ffffff;
-  --card: #f7f7f7;
-  --text: #111111;
-  --muted: #444444;
-  --border: #d9d9d9;
-}
-
-html, body, [data-testid="stAppViewContainer"], .main {
-  background-color: var(--bg) !important;
-  color: var(--text) !important;
-}
-
-.block-container {
-  background-color: var(--bg) !important;
-  color: var(--text) !important;
-}
-
-section[data-testid="stSidebar"] {
-  background-color: #f3f4f6 !important;
-  color: var(--text) !important;
-}
-
-h1, h2, h3, h4, h5, h6, p, label, div, span {
-  color: var(--text) !important;
-}
-
-div[data-testid="stMetric"] {
-  background-color: var(--card) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 10px !important;
-  padding: 0.5rem !important;
-}
-
-div[data-testid="stMetric"] label,
-div[data-testid="stMetric"] div {
-  color: var(--text) !important;
-}
-
-div[data-testid="stDataFrame"] *,
-table, th, td {
-  color: var(--text) !important;
-}
-
-.custom-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-</style>
-"""
-
-dark_css = """
-<style>
-:root {
-  --bg: #0e1117;
-  --card: #161b22;
-  --text: #f3f3f3;
-  --muted: #b3b3b3;
-  --border: #2d333b;
-}
-
-html, body, [data-testid="stAppViewContainer"], .main {
-  background-color: var(--bg) !important;
-  color: var(--text) !important;
-}
-
-.block-container {
-  background-color: var(--bg) !important;
-  color: var(--text) !important;
-}
-
-section[data-testid="stSidebar"] {
-  background-color: #111827 !important;
-  color: var(--text) !important;
-}
-
-h1, h2, h3, h4, h5, h6, p, label, div, span {
-  color: var(--text) !important;
-}
-
-div[data-testid="stMetric"] {
-  background-color: var(--card) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 10px !important;
-  padding: 0.5rem !important;
-}
-
-div[data-testid="stMetric"] label,
-div[data-testid="stMetric"] div {
-  color: var(--text) !important;
-}
-
-div[data-testid="stDataFrame"] *,
-table, th, td {
-  color: var(--text) !important;
-}
-
-.custom-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-</style>
-"""
-
-# ----------------------------
-# Theme-aware figure helpers
-# ----------------------------
-def get_theme_colors(mode: str):
-    if mode == "Dark":
-        return {
-            "fig_bg": "#0e1117",
-            "ax_bg": "#161b22",
-            "text": "#f3f3f3",
-            "grid": "#2d333b",
-            "spine": "#9aa4b2",
-        }
-    return {
-        "fig_bg": "#ffffff",
-        "ax_bg": "#ffffff",
-        "text": "#111111",
-        "grid": "#d9d9d9",
-        "spine": "#666666",
-    }
+def format_metric(x, digits: int = 3) -> str:
+    try:
+        return f"{float(x):.{digits}f}"
+    except Exception:
+        return "N/A"
 
 
-def style_axes(ax, colors):
-    ax.set_facecolor(colors["ax_bg"])
-    ax.tick_params(colors=colors["text"], labelcolor=colors["text"])
-    ax.xaxis.label.set_color(colors["text"])
-    ax.yaxis.label.set_color(colors["text"])
-    ax.title.set_color(colors["text"])
-    for spine in ax.spines.values():
-        spine.set_color(colors["spine"])
-    ax.grid(True, color=colors["grid"], alpha=0.3)
+def show_figure(path: Path, caption: str):
+    if path.exists():
+        try:
+            img = Image.open(path)
+            st.image(img, width="stretch")
+            st.caption(caption)
+        except Exception as e:
+            st.warning(f"Could not load figure {path.name}: {e}")
+    else:
+        st.info(f"Figure not found: {path.name}")
 
 
-def plot_accuracy(results, mode):
-    colors = get_theme_colors(mode)
-    fig, ax = plt.subplots(figsize=(10, 5))
-    fig.patch.set_facecolor(colors["fig_bg"])
+# -----------------------------
+# Theme / appearance CSS
+# -----------------------------
+def inject_theme_css(mode: str):
+    if mode == "Light":
+        bg = "#f6f8fc"
+        panel = "#ffffff"
+        text = "#111827"
+        subtext = "#374151"
+        border = "#d1d5db"
+        sidebar_bg = "#eef2f7"
+        sidebar_box = "#ffffff"
+        hover = "#e5e7eb"
+        selected = "#dbeafe"
+    else:
+        # Dark + Auto both use the same stable custom theme inside app
+        bg = "#060816"
+        panel = "#0b1020"
+        text = "#f5f7fb"
+        subtext = "#cbd5e1"
+        border = "#374151"
+        sidebar_bg = "linear-gradient(180deg, #1f2230 0%, #0b1020 100%)"
+        sidebar_box = "#0b1020"
+        hover = "#1a2238"
+        selected = "#24304d"
 
-    pivot = results.pivot(index="Model", columns="Dataset", values="Accuracy")
-    pivot.plot(kind="bar", ax=ax)
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background:
+                radial-gradient(circle at top left, rgba(59,130,246,0.14), transparent 24%),
+                radial-gradient(circle at top right, rgba(168,85,247,0.10), transparent 24%),
+                {bg};
+            color: {text};
+        }}
 
-    ax.set_title("Figure 1. Accuracy by Model and Dataset")
-    ax.set_xlabel("Model")
-    ax.set_ylabel("Accuracy")
-    style_axes(ax, colors)
+        .block-container {{
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+            max-width: 1400px;
+        }}
 
-    leg = ax.get_legend()
-    if leg:
-        leg.get_title().set_color(colors["text"])
-        for text in leg.get_texts():
-            text.set_color(colors["text"])
-        leg.get_frame().set_facecolor(colors["ax_bg"])
-        leg.get_frame().set_edgecolor(colors["spine"])
+        h1, h2, h3, h4, h5, h6, p, li, label, div, span {{
+            color: {text};
+        }}
 
-    fig.tight_layout()
-    return fig
+        section[data-testid="stSidebar"] {{
+            background: {sidebar_bg};
+            border-right: 1px solid {border};
+        }}
 
+        section[data-testid="stSidebar"] .stMarkdown,
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] span,
+        section[data-testid="stSidebar"] label,
+        section[data-testid="stSidebar"] div {{
+            color: {text} !important;
+        }}
 
-def plot_dp(results, mode):
-    colors = get_theme_colors(mode)
-    fig, ax = plt.subplots(figsize=(10, 5))
-    fig.patch.set_facecolor(colors["fig_bg"])
+        /* Closed selectbox */
+        section[data-testid="stSidebar"] div[data-baseweb="select"] > div {{
+            background-color: {sidebar_box} !important;
+            color: {text} !important;
+            border: 1px solid {border} !important;
+            border-radius: 10px !important;
+            min-height: 42px !important;
+        }}
 
-    pivot = results.pivot(index="Model", columns="Dataset", values="Demographic Parity")
-    pivot.plot(kind="bar", ax=ax)
+        /* Text inside closed selectbox */
+        section[data-testid="stSidebar"] div[data-baseweb="select"] span {{
+            color: {text} !important;
+        }}
 
-    ax.set_title("Figure 2. Demographic Parity Difference by Model and Dataset")
-    ax.set_xlabel("Model")
-    ax.set_ylabel("Demographic Parity Difference (abs)")
-    style_axes(ax, colors)
+        /* Dropdown popup */
+        div[role="listbox"] {{
+            background-color: {sidebar_box} !important;
+            border: 1px solid {border} !important;
+            border-radius: 10px !important;
+            color: {text} !important;
+        }}
 
-    leg = ax.get_legend()
-    if leg:
-        leg.get_title().set_color(colors["text"])
-        for text in leg.get_texts():
-            text.set_color(colors["text"])
-        leg.get_frame().set_facecolor(colors["ax_bg"])
-        leg.get_frame().set_edgecolor(colors["spine"])
+        /* Each option */
+        div[role="option"] {{
+            background-color: {sidebar_box} !important;
+            color: {text} !important;
+        }}
 
-    fig.tight_layout()
-    return fig
+        /* Hovered option */
+        div[role="option"]:hover {{
+            background-color: {hover} !important;
+            color: {text} !important;
+        }}
 
+        /* Selected / focused option */
+        div[aria-selected="true"] {{
+            background-color: {selected} !important;
+            color: {text} !important;
+        }}
 
-def plot_eo_vs_pp(results, mode):
-    colors = get_theme_colors(mode)
-    fig, ax = plt.subplots(figsize=(10, 5))
-    fig.patch.set_facecolor(colors["fig_bg"])
+        /* Arrow icon */
+        section[data-testid="stSidebar"] svg {{
+            fill: {text} !important;
+        }}
 
-    datasets = results["Dataset"].unique()
-    for ds in datasets:
-        subset = results[results["Dataset"] == ds]
-        ax.scatter(
-            subset["Equalized Odds"],
-            subset["Predictive Parity"],
-            label=ds,
-            s=70,
-        )
-        for _, row in subset.iterrows():
-            ax.annotate(
-                row["Model"],
-                (row["Equalized Odds"], row["Predictive Parity"]),
-                fontsize=8,
-                color=colors["text"],
-            )
+        /* Dataframe / table container */
+        div[data-testid="stDataFrame"] {{
+            border: 1px solid {border};
+            border-radius: 12px;
+            overflow: hidden;
+        }}
 
-    ax.set_title("Figure 3. Equalized Odds vs Predictive Parity")
-    ax.set_xlabel("Equalized Odds Difference")
-    ax.set_ylabel("Predictive Parity Difference")
-    style_axes(ax, colors)
+        /* Metric spacing */
+        [data-testid="stMetric"] {{
+            background: transparent;
+            border-radius: 12px;
+            padding: 0.25rem 0.1rem;
+        }}
 
-    leg = ax.get_legend()
-    if leg:
-        leg.get_title().set_color(colors["text"])
-        for text in leg.get_texts():
-            text.set_color(colors["text"])
-        leg.get_frame().set_facecolor(colors["ax_bg"])
-        leg.get_frame().set_edgecolor(colors["spine"])
+        /* Horizontal rule */
+        hr {{
+            border: none;
+            border-top: 1px solid {border};
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }}
 
-    fig.tight_layout()
-    return fig
-
-
-def plot_tau_heatmap(tau, mode):
-    colors = get_theme_colors(mode)
-    fig, ax = plt.subplots(figsize=(7, 5))
-    fig.patch.set_facecolor(colors["fig_bg"])
-
-    matrix = tau.values
-    ax.imshow(matrix, aspect="auto")
-
-    ax.set_xticks(np.arange(len(tau.columns)))
-    ax.set_yticks(np.arange(len(tau.index)))
-    ax.set_xticklabels(tau.columns, rotation=25, ha="right", color=colors["text"])
-    ax.set_yticklabels(tau.index, color=colors["text"])
-
-    for i in range(matrix.shape[0]):
-        for j in range(matrix.shape[1]):
-            ax.text(
-                j,
-                i,
-                f"{matrix[i, j]:.4f}",
-                ha="center",
-                va="center",
-                color=colors["text"],
-                fontsize=9,
-            )
-
-    ax.set_title("Figure 4. Agreement Between Fairness Metrics (Kendall τ)")
-    style_axes(ax, colors)
-    fig.tight_layout()
-    return fig
+        /* Code blocks */
+        code {{
+            color: {text};
+            background-color: rgba(127,127,127,0.12);
+            padding: 0.12rem 0.35rem;
+            border-radius: 6px;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
-if mode == "Light":
-    st.markdown(light_css, unsafe_allow_html=True)
-elif mode == "Dark":
-    st.markdown(dark_css, unsafe_allow_html=True)
+# -----------------------------
+# Sidebar controls
+# -----------------------------
+st.sidebar.markdown("## Dashboard Settings")
 
+appearance = st.sidebar.selectbox(
+    "Appearance",
+    ["Auto", "Dark", "Light"],
+    index=0,
+)
+
+inject_theme_css(appearance)
+
+results_df = safe_read_csv(OUTPUTS_DIR / "results.csv")
+tool_df = safe_read_csv(OUTPUTS_DIR / "tool_comparison.csv")
+agreement_df = safe_read_csv(OUTPUTS_DIR / "agreement_kendall_tau.csv")
+judge_summary_df = safe_read_csv(OUTPUTS_DIR / "fairness_judge_summary.csv")
+crows_df = safe_read_csv(OUTPUTS_DIR / "crows_pairs_llm_eval.csv")
+bbq_df = safe_read_csv(OUTPUTS_DIR / "bbq_llm_eval.csv")
+alpha_value = safe_float_text(OUTPUTS_DIR / "agreement_krippendorff_alpha.txt")
+
+if results_df is not None and not results_df.empty:
+    dataset_options = ["All"] + sorted(results_df["Dataset"].dropna().astype(str).unique().tolist())
+    model_options = ["All"] + sorted(results_df["Model"].dropna().astype(str).unique().tolist())
+else:
+    dataset_options = ["All"]
+    model_options = ["All"]
+
+st.sidebar.markdown("## Result Filters")
+dataset_filter = st.sidebar.selectbox("Dataset filter", dataset_options, index=0)
+model_filter = st.sidebar.selectbox("Model filter", model_options, index=0)
+
+
+# -----------------------------
+# Apply filters
+# -----------------------------
+filtered_results = results_df.copy() if results_df is not None else None
+
+if filtered_results is not None and not filtered_results.empty:
+    if dataset_filter != "All":
+        filtered_results = filtered_results[filtered_results["Dataset"].astype(str) == dataset_filter]
+    if model_filter != "All":
+        filtered_results = filtered_results[filtered_results["Model"].astype(str) == model_filter]
+
+
+# -----------------------------
+# Header
+# -----------------------------
 st.title("FairEval Dashboard")
-st.caption("Interactive Streamlit dashboard for Milestone 6 inspection and presentation.")
+st.caption(
+    "Integrated fairness benchmarking, agreement analysis, LLM bias evaluation, and dashboard presentation for Milestone 6."
+)
 
-# ----------------------------
-# Load outputs
-# ----------------------------
-results = pd.read_csv(OUTPUTS / "results.csv")
-tau = pd.read_csv(OUTPUTS / "agreement_kendall_tau.csv", index_col=0)
-alpha = (OUTPUTS / "agreement_krippendorff_alpha.txt").read_text().strip()
 
-judge_summary = pd.read_csv(OUTPUTS / "fairness_judge_summary.csv")
-crows = pd.read_csv(OUTPUTS / "crows_pairs_llm_eval.csv")
-bbq = pd.read_csv(OUTPUTS / "bbq_llm_eval.csv")
-tool_comparison = pd.read_csv(OUTPUTS / "tool_comparison.csv")
+# -----------------------------
+# Executive summary
+# -----------------------------
+st.header("Executive Summary")
+st.markdown(
+    """
+- **FairEval benchmarks multiple machine learning models** across Adult, COMPAS, and German Credit.
+- The project **compares multiple fairness metrics** and shows that fairness conclusions can differ depending on the metric used.
+- The framework also includes **optional LLM-based bias evaluation** using CrowS-Pairs, BBQ, and a fairness-judge experiment.
+"""
+)
 
-crows_acc = float(crows["correct"].mean()) if "correct" in crows.columns else None
+st.header("Execution Modes")
+st.markdown(
+    """
+- **Core mode:** fully reproducible local package with tabular datasets, fairness metrics, agreement analysis, generated figures, and dashboard outputs.
+- **Extended mode:** optional API-backed LLM evaluation for CrowS-Pairs, BBQ, and fairness-judge style experiments.
+"""
+)
+
+
+# -----------------------------
+# Core benchmark summary
+# -----------------------------
+st.header("Core Benchmark Summary")
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    metric_card("Krippendorff's alpha", format_metric(alpha_value, 6) if alpha_value is not None else "N/A")
+with col2:
+    metric_card(
+        "Datasets",
+        str(results_df["Dataset"].nunique()) if results_df is not None and not results_df.empty else "0",
+    )
+with col3:
+    metric_card(
+        "Models",
+        str(results_df["Model"].nunique()) if results_df is not None and not results_df.empty else "0",
+    )
+with col4:
+    metric_card("Fairness metrics", "3")
+
+
+# -----------------------------
+# Optional LLM/API summary
+# -----------------------------
+st.header("Optional LLM/API Extension Summary")
+c1, c2, c3, c4 = st.columns(4)
+
+crows_acc = None
+if crows_df is not None and not crows_df.empty and "correct" in crows_df.columns:
+    crows_acc = float(crows_df["correct"].mean())
 
 bbq_acc = None
-if "correct" in bbq.columns:
-    valid = bbq[bbq["correct"].isin([True, False])]
-    if len(valid) > 0:
-        bbq_acc = float(valid["correct"].mean())
+if bbq_df is not None and not bbq_df.empty and "correct" in bbq_df.columns:
+    bbq_acc = float(bbq_df["correct"].mean())
 
-st.subheader("Core benchmark summary")
+judge_agreement = None
+if judge_summary_df is not None and not judge_summary_df.empty and "benchmark_judge_agreement" in judge_summary_df.columns:
+    judge_agreement = float(judge_summary_df.iloc[0]["benchmark_judge_agreement"])
 
-c1, c2, c3 = st.columns(3)
-c1.metric("Krippendorff's alpha", alpha)
-c2.metric(
-    "CrowS-Pairs proxy accuracy",
-    f"{crows_acc:.3f}" if crows_acc is not None else "n/a",
-)
-c3.metric(
-    "BBQ proxy accuracy",
-    f"{bbq_acc:.3f}" if bbq_acc is not None else "n/a",
-)
+llm_mode = "Not available"
+if crows_df is not None and not crows_df.empty and "mode" in crows_df.columns:
+    llm_mode = str(crows_df.iloc[0]["mode"])
 
-st.subheader("Tabular benchmark results")
-st.dataframe(results, width="stretch")
-
-c4, c5 = st.columns(2)
-
+with c1:
+    metric_card("CrowS-Pairs accuracy", format_metric(crows_acc))
+with c2:
+    metric_card("BBQ accuracy", format_metric(bbq_acc))
+with c3:
+    metric_card("Judge agreement", format_metric(judge_agreement))
 with c4:
-    st.subheader("Agreement matrix")
-    st.dataframe(tau, width="stretch")
+    metric_card("LLM mode", llm_mode)
 
-with c5:
-    st.subheader("Fairness-judge summary")
-    st.dataframe(judge_summary, width="stretch")
 
-st.subheader("FairEval vs Existing Tools")
-st.dataframe(tool_comparison, width="stretch")
+# -----------------------------
+# Tabular results
+# -----------------------------
+st.header("Tabular Benchmark Results")
+if filtered_results is not None and not filtered_results.empty:
+    st.dataframe(filtered_results, width="stretch", hide_index=True)
+else:
+    st.info("No benchmark results available yet.")
 
-st.subheader("Generated figures")
+
+# -----------------------------
+# Agreement + Judge summary
+# -----------------------------
+left, right = st.columns(2)
+
+with left:
+    st.header("Agreement Matrix")
+    if agreement_df is not None and not agreement_df.empty:
+        st.dataframe(agreement_df, width="stretch", hide_index=True)
+        st.markdown(
+            "**Interpretation:** High positive Kendall τ values indicate that two metrics rank model outcomes similarly. "
+            "Lower or negative values indicate disagreement, which supports the main idea that fairness conclusions can depend on the metric chosen."
+        )
+    else:
+        st.info("Agreement matrix not available.")
+
+with right:
+    st.header("Fairness-Judge Evaluation Summary")
+    if judge_summary_df is not None and not judge_summary_df.empty:
+        st.dataframe(judge_summary_df, width="stretch", hide_index=True)
+        st.markdown(
+            "**Interpretation:** The fairness-judge experiment is intended as a complementary evaluation. "
+            "Limited agreement with benchmark labels suggests that natural-language judging may differ from formal benchmark expectations."
+        )
+    else:
+        st.info("Fairness-judge summary not available.")
+
+
+# -----------------------------
+# Tool comparison
+# -----------------------------
+st.header("Feature Comparison with Existing Fairness Toolkits")
+if tool_df is not None and not tool_df.empty:
+    st.dataframe(tool_df, width="stretch", hide_index=True)
+    st.markdown(
+        "**Takeaway:** FairEval combines classical ML fairness benchmarking, metric agreement analysis, optional LLM evaluation, "
+        "a fairness-judge experiment, and a reproducible dashboard workflow in one framework."
+    )
+else:
+    st.info("Tool comparison table not available.")
+
+
+# -----------------------------
+# Figures
+# -----------------------------
+st.header("Generated Figures")
 
 fig_col1, fig_col2 = st.columns(2)
 with fig_col1:
-    st.pyplot(plot_accuracy(results, mode), width="stretch")
+    show_figure(
+        FIGURES_DIR / "figure1_accuracy_by_model_dataset.png",
+        "Figure 1 compares predictive accuracy across models and datasets.",
+    )
 with fig_col2:
-    st.pyplot(plot_dp(results, mode), width="stretch")
+    show_figure(
+        FIGURES_DIR / "figure2_demographic_parity_by_model_dataset.png",
+        "Figure 2 compares demographic parity differences across models and datasets.",
+    )
 
 fig_col3, fig_col4 = st.columns(2)
 with fig_col3:
-    st.pyplot(plot_eo_vs_pp(results, mode), width="stretch")
+    show_figure(
+        FIGURES_DIR / "figure3_equalized_odds_vs_predictive_parity.png",
+        "Figure 3 shows how equalized odds and predictive parity can give different fairness rankings.",
+    )
 with fig_col4:
-    st.pyplot(plot_tau_heatmap(tau, mode), width="stretch")
+    show_figure(
+        FIGURES_DIR / "figure4_kendall_tau_heatmap.png",
+        "Figure 4 summarizes agreement strength among evaluation metrics using Kendall τ.",
+    )
+
+
+# -----------------------------
+# Reproducibility section
+# -----------------------------
+st.header("Reproducibility")
+st.markdown("This project is organized as a reproducible local package.")
+
+st.markdown("**Core commands**")
+st.markdown(
+    """
+- `python main.py`
+- `python scripts/generate_figures.py`
+- `PYTHONPATH=. python scripts/run_crows_pairs.py`
+- `python scripts/run_bbq.py`
+- `python scripts/run_fairness_judge.py`
+- `python scripts/build_dashboard.py`
+"""
+)
+
+st.markdown("**Notes**")
+st.markdown(
+    """
+- Core tabular benchmarking works locally from packaged datasets and scripts.
+- LLM/API-backed evaluation is optional and environment-variable controlled.
+- Outputs are saved into the `outputs/`, `figures/`, and `dashboard/` folders.
+"""
+)

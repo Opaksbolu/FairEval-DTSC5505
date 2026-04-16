@@ -1,200 +1,256 @@
-# FairEval - Milestone 6 Submission Package
+# FairEval-DTSC5505
 
-**Project Title:** Do Fairness Benchmarks Agree? A Cross-Metric Analysis Framework for ML and LLM Bias Auditing  
-**Project Category:** Benchmarking / Evaluation  
-**Student Name:** Abdul Azeem Opakunle  
-**Course:** DTSC 5505  
-**Milestone:** Milestone 6 - Final Report & Presentation
+FairEval is an integrated fairness evaluation framework developed for Milestone 6. The project benchmarks multiple machine learning models on multiple tabular datasets, compares fairness metrics, measures agreement between those metrics, and extends the analysis with optional LLM-based text bias evaluation and a fairness-judge experiment. The project also includes generated figures, a Streamlit dashboard, and a reproducible local package structure.
 
-## 1. Project Overview
-FairEval is a reproducible benchmarking framework for studying whether commonly used fairness metrics agree when auditing machine-learning systems. The final validated pipeline evaluates two classical models (logistic regression and random forest) on three tabular fairness benchmarks (Adult, COMPAS, and German Credit), computes predictive and fairness metrics, and then quantifies agreement among those fairness metrics using Kendall's tau and Krippendorff's alpha.
+---
 
-The package also includes optional scaffolding for lightweight language-model benchmark execution on CrowS-Pairs and BBQ. Those adapters are included to preserve the project's cross-modal design direction, but the **validated empirical results used in the final report are the tabular results** in `outputs/results.csv` and the agreement artifacts in `outputs/agreement_kendall_tau.csv` and `outputs/agreement_krippendorff_alpha.txt`.
+## Project Goals
 
-## 2. What is included
-- `main.py` - main entry point for the benchmark
-- `src/` - modular implementation (data loading, preprocessing, models, metrics, agreement analysis, optional LLM adapters)
-- `scripts/run_all.sh` - one-command pipeline runner
-- `scripts/generate_figures.py` - regenerate report figures from saved outputs
-- `scripts/smoke_test.py` - quick integrity check for package contents
-- `scripts/run_crows_pairs.py` - runs the packaged CrowS-Pairs proxy benchmark
-- `scripts/run_bbq.py` - runs the packaged BBQ proxy benchmark
-- `scripts/run_fairness_judge.py` - runs the fairness-judge experiment on CrowS-Pairs outputs
-- `scripts/build_dashboard.py` - builds a static dashboard in `dashboard/index.html`
-- `datasets/` - packaged CSVs used by the project
-- `outputs/` - saved benchmark outputs used by the report
-- `figures/` - regenerated PNG figures referenced in the report and slides
-- `docs/presentation_script.md` - narration script for the slide presentation
-- `docs/code_walkthrough_script.md` - separate script for the code demo / execution recording
-- `docs/recording_links.txt` - placeholder file where you can paste the final two video links
-- `datasets/README_DATASET.md` - dataset provenance and redistribution notes
-- `requirements.txt` - core environment for the validated tabular pipeline
-- `requirements-optional.txt` - optional packages for API-backed LLM evaluation / dataset refresh
-- `environment.yml` - conda environment for the core tabular pipeline
+The main goal of FairEval is to study whether fairness conclusions remain stable across:
+- multiple datasets
+- multiple machine learning models
+- multiple fairness metrics
+- optional LLM-based bias benchmarks
 
-## 3. Recommended environment
-### Operating system assumptions
-Validated primarily for:
-- macOS or Linux
-- Python 3.12.x recommended
+The project is designed to answer a central question: **do different fairness metrics agree on which models are fairer, or do they produce conflicting conclusions?**
 
-### Recommended IDE
-- VS Code, PyCharm, or any terminal + editor workflow
+---
 
-## 4. Core installation (recommended for grading)
-The package already includes the datasets, outputs, and figures, so the grader does **not** need to download external data to verify the final artifact.
+## Milestone 6 Requirement Coverage
 
-### Option A - pip + venv
-```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
+This project covers the Milestone 6 roadmap requirements as follows:
 
-### Option B - conda
-```bash
-conda env create -f environment.yml
-conda activate faireval-m6
-```
+- **Multiple datasets**: Adult, COMPAS, German Credit
+- **Multiple models**: Logistic Regression, Decision Tree, Random Forest, GaussianNB
+- **Multiple fairness metrics**: Demographic Parity, Equalized Odds, Predictive Parity
+- **Metric agreement analysis**: Kendall tau agreement matrix and Krippendorff’s alpha
+- **LLM benchmark branch**: CrowS-Pairs and BBQ
+- **Fairness-judge experiment**: included
+- **Generated visualizations**: included
+- **Interactive Streamlit dashboard**: included
+- **Reproducible local package**: included
 
-## 5. Exact core library versions
-Core validated stack:
-- numpy==2.1.3
-- pandas==2.2.3
-- scikit-learn==1.5.2
-- scipy==1.14.1
-- matplotlib==3.9.2
-- krippendorff==0.8.1
-- python-dotenv==1.0.1
+---
 
-Optional extras (only needed for API-backed / refresh utilities):
-- openai==2.30.0
-- datasets==3.1.0
-- pyarrow==18.1.0
+## Execution Modes
 
-Install the optional extras only if needed:
-```bash
-pip install -r requirements-optional.txt
-```
+The project supports two execution styles:
 
-## 6. Project structure
+### 1. Core mode
+This is the fully reproducible local workflow:
+- tabular fairness benchmarking
+- fairness metric comparison
+- metric agreement analysis
+- generated figures
+- Streamlit dashboard
+
+### 2. Extended mode
+This adds optional API-backed LLM evaluation:
+- CrowS-Pairs
+- BBQ
+- fairness-judge style evaluation
+
+The core mode is the required and fully reproducible package. The LLM branch is an optional extension.
+
+---
+
+## Project Structure
+
 ```text
-Project-Final Report and Presentation-DTSC5505-Abdul Azeem Opakunle/
-  main.py
-  README.md
-  requirements.txt
-  requirements-optional.txt
-  environment.yml
-  docs/
-    presentation_script.md
-    code_walkthrough_script.md
-    recording_links.txt
-  src/
-    data_loader.py
-    preprocessing.py
-    models.py
-    fairness_metrics.py
-    experiments.py
-    agreement.py
-    llm_eval.py
-    bbq_eval.py
-  scripts/
-    run_all.sh
-    generate_figures.py
-    smoke_test.py
-    download_datasets.sh
-  datasets/
-    adult.csv
-    compas.csv
-    german_credit.csv
-    crows_pairs.csv
-    bbq.csv
-    README_DATASET.md
-  outputs/
-    results.csv
-    agreement_kendall_tau.csv
-    agreement_krippendorff_alpha.txt
-    crows_pairs_llm_eval.csv
-    bbq_llm_eval.csv
-  figures/
-    fig1_accuracy_by_model_dataset.png
-    fig2_demographic_parity.png
-    fig3_eo_vs_pp.png
-    fig4_kendall_tau_heatmap.png
-```
+FairEval-DTSC5505/
+├── datasets/
+├── outputs/
+├── figures/
+├── dashboard/
+├── scripts/
+├── src/
+├── streamlit_app.py
+├── main.py
+├── requirements.txt
+└── README.md
 
-## 7. How to run
-### Quick validation (fastest)
-```bash
+Setup Instructions
+
+1. Clone or open the project folder
+
+Open the FairEval-DTSC5505 folder in VS Code or Terminal.
+
+2. Create a virtual environment
+
+On macOS or Linux:
+
+python3 -m venv .venv
+
+On Windows:
+
+python -m venv .venv
+
+3. Activate the virtual environment
+
+On macOS or Linux:
+
+source .venv/bin/activate
+
+On Windows PowerShell:
+
+.venv\Scripts\Activate.ps1
+
+On Windows Command Prompt:
+
+.venv\Scripts\activate
+
+4. Install dependencies
+
+pip install -r requirements.txt
+
+If needed, install these manually:
+
+pip install pandas numpy scikit-learn matplotlib streamlit openai python-dotenv
+
+5. Confirm the dataset files exist
+
+Make sure these files are inside the datasets/ folder:
+	•	adult.csv
+	•	compas.csv
+	•	german_credit.csv
+	•	crows_pairs.csv
+	•	optional: bbq.csv
+
+6. Run the smoke test
+
 python scripts/smoke_test.py
-```
-This confirms that the packaged datasets, outputs, and figures exist and that the core files are present.
 
-### Full tabular pipeline
-```bash
+This checks that the expected project files and outputs are present.
+
+⸻
+
+Main Components
+
+1. Tabular fairness benchmarking
+
+The project evaluates multiple classical machine learning models on:
+	•	Adult
+	•	COMPAS
+	•	German Credit
+
+For each dataset/model pair, the project reports:
+	•	Accuracy
+	•	Demographic Parity Difference
+	•	Equalized Odds Difference
+	•	Predictive Parity Difference
+
+2. Agreement analysis
+
+The project measures agreement between metrics using:
+	•	Kendall tau agreement matrix
+	•	Krippendorff’s alpha
+
+This component is important because it shows whether fairness metrics rank models similarly or differently.
+
+3. LLM benchmark branch
+
+The framework includes optional LLM-based evaluation on:
+	•	CrowS-Pairs
+	•	BBQ
+
+These experiments extend the evaluation beyond tabular fairness into text-based bias assessment.
+
+4. Fairness-judge experiment
+
+A fairness-judge style evaluation is included to compare benchmark expectations with judge-based reasoning.
+
+5. Dashboard and figures
+
+The project includes:
+	•	saved outputs
+	•	generated figures
+	•	an interactive Streamlit dashboard for presentation and inspection
+
+⸻
+
+How to Run
+
+Core workflow
+
+Run the full local benchmarking pipeline:
+
 python main.py
 python scripts/generate_figures.py
-```
-
-### One-command pipeline
-```bash
-bash scripts/run_all.sh
-```
-
-### Lightweight text benchmark extensions
-```bash
-python scripts/run_crows_pairs.py
 python scripts/run_bbq.py
 python scripts/run_fairness_judge.py
 python scripts/build_dashboard.py
-```
 
-## 8. What each command does
-1. `python main.py`
-   - loads Adult, COMPAS, and German Credit
-   - preprocesses features and sensitive attributes
-   - trains logistic regression and random forest
-   - computes accuracy, demographic parity, equalized odds, and predictive parity
-   - writes results and agreement outputs to `outputs/`
+Optional CrowS-Pairs API workflow
 
-2. `python scripts/generate_figures.py`
-   - reads `outputs/results.csv` and `outputs/agreement_kendall_tau.csv`
-   - regenerates the four PNG figures used in the final report and slides
+If you want to run the API-backed CrowS-Pairs evaluation:
 
-## 9. Approximate runtime expectations
-Approximate runtime on a normal laptop:
-- smoke test: < 10 seconds
-- full tabular pipeline: typically a few minutes, depending on CPU
-- figure generation: < 30 seconds
+On macOS/Linux:
 
-The offline proxy extensions typically run in seconds. API-backed evaluation remains optional and requires network/API access.
+export OPENAI_API_KEY="your_key_here"
+export FAIREVAL_USE_OPENAI=1
+export FAIREVAL_OPENAI_MODEL="gpt-5"
+PYTHONPATH=. python scripts/run_crows_pairs.py
 
-## 10. Dataset handling and compliance
-All datasets used by the packaged benchmark are included in `datasets/`.  
-See `datasets/README_DATASET.md` for:
-- exact dataset names
-- source notes
-- redistribution guidance
-- expected file structure
+On Windows PowerShell:
 
-## 11. Important note on optional LLM evaluation
-The codebase includes two execution modes for the text branch: offline proxy mode for packaged reproducibility and API-backed mode when `OPENAI_API_KEY` is available. The package also includes a separate fairness-judge experiment and a static dashboard.
+$env:OPENAI_API_KEY="your_key_here"
+$env:FAIREVAL_USE_OPENAI="1"
+$env:FAIREVAL_OPENAI_MODEL="gpt-5"
+$env:PYTHONPATH="."
+python scripts/run_crows_pairs.py
 
-## 12. How the package supports the Milestone 6 deliverables
-This zip satisfies the code-package side of the assignment by providing:
-- fully organized Python source code
-- supporting scripts
-- datasets used
-- reproducibility README
-- environment files
-- saved outputs
-- regenerated figures
-- a presentation narration script
-- a separate code walkthrough / execution script
+This step is optional and is used for the extended LLM evaluation branch.
 
-You still need to record and submit:
-1. the narrated presentation video
-2. the code walkthrough / execution video
+Launch the Streamlit dashboard
 
-Paste those two shareable links into `docs/recording_links.txt` before final Canvas upload if your course accepts links.
+streamlit run streamlit_app.py
+
+
+Outputs
+
+Important generated files include:
+	•	outputs/results.csv
+	•	outputs/agreement_kendall_tau.csv
+	•	outputs/agreement_krippendorff_alpha.txt
+	•	outputs/crows_pairs_llm_eval.csv
+	•	outputs/bbq_llm_eval.csv
+	•	outputs/fairness_judge_summary.csv
+	•	figures/
+	•	dashboard/index.html
+
+⸻
+
+Key Findings
+
+The project demonstrates that:
+	•	model fairness can vary substantially across datasets
+	•	fairness metrics do not always agree
+	•	accuracy and fairness may not move together
+	•	LLM bias benchmarks can be integrated into a broader fairness evaluation workflow
+	•	dashboard packaging improves interpretability and presentation quality
+
+⸻
+
+Reproducibility Notes
+	•	Core tabular benchmarking is fully reproducible locally.
+	•	LLM/API-backed evaluation is optional.
+	•	API keys should never be committed to the repository.
+	•	.env, .venv, and .git should not be included in the final submission package.
+
+⸻
+
+Final Submission Notes
+
+The final submission should include:
+	•	source code
+	•	scripts
+	•	dashboard
+	•	outputs
+	•	figures
+	•	README
+
+The final submission should not include:
+	•	.env
+	•	.venv
+	•	.git
+	•	exposed API keys
